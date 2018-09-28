@@ -1,4 +1,4 @@
-package org.rebeam.sortable
+package react.sortable
 
 import scala.collection.mutable
 
@@ -16,4 +16,3 @@ case class IndexChange(oldIndex: Int, newIndex: Int) {
     lb
   }
 }
-

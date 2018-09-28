@@ -1,4 +1,4 @@
-package react.draggable.demo
+package react.sortable.demo
 
 import scala.util.Random._
 import scala.scalajs.js

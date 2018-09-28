@@ -1,4 +1,4 @@
-package org.rebeam.sortable
+package react.sortable
 
 import japgolly.scalajs.react._
 

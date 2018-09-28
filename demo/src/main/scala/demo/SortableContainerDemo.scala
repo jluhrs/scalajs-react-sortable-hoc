@@ -1,8 +1,8 @@
-package org.rebeam.sortable.demo
+package react.sortable.demo
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-import org.rebeam.sortable._
+import react.sortable._
 
 object SortableContainerDemo {
 

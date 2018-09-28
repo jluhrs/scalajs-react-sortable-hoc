@@ -1,4 +1,4 @@
-package react.draggable.demo
+package react.sortable.demo
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
@@ -11,7 +11,7 @@ import org.scalajs.dom.MouseEvent
 import react.virtualized._
 import react.draggable._
 import Data.DataRow
-import org.rebeam.sortable._
+import react.sortable._
 
 object TableDemo {
   final case class Props(s: Size)
@@ -26,8 +26,8 @@ object TableDemo {
           //   scope.modState(
           //     l => p.updated(l).toList
           //   ),
-          useDragHandle = true,
-          helperClass = "react-sortable-handler"
+          // useDragHandle = true,
+          // helperClass = "react-sortable-handler"
         )
       )(MainTable.Props(true, "index", p.s))
     }
@@ -41,11 +41,11 @@ object DefaultRow {
 
   val component = ScalaComponent.builder[Props]("DefaultRow")
     .render_P{ p =>
-      // <.div(
-      //   ^.className := "sortable-hoc-item sortable-hoc-stylizedItem",
+      <.div(
+        // ^.className := "sortable-hoc-item sortable-hoc-stylizedItem",
         // SortableView.handl
         react.virtualized.raw.defaultRowRenderer(p.p)
-      // )
+      )
     }
     .build
 
@@ -78,9 +78,9 @@ object MainTable {
     )
 
   def rowClassName(i: Int): String = i match {
-    case x if x < 0      => "headerRow"
-    case x if x % 2 == 0 => "evenRow"
-    case _               => "oddRow"
+    case x if x < 0      => "sortable-hoc-item sortable-hoc-stylizedItem headerRow"
+    case x if x % 2 == 0 => "sortable-hoc-item sortable-hoc-stylizedItem evenRow"
+    case _               => "sortable-hoc-item sortable-hoc-stylizedItem oddRow"
   }
 
   implicit class JsNumberOps(val d: JsNumber) extends AnyVal {
@@ -145,6 +145,7 @@ object MainTable {
         val sorted = state.data.sortBy(_.index)
         $.setState(state.copy(data = if (sortDirection == SortDirection.ASC) sorted else sorted.reverse, sortDirection = sortDirection))
       }
+
       val columns = List(
         Column(Column.props((props.s.width * state.widths.index).toInt, "index", label = "Index", disableSort = false, headerRenderer = headerRenderer(resizeRow))),
         Column(Column.props((props.s.width * state.widths.name).toInt, "name", label = "Full Name", disableSort = false, headerRenderer = headerRenderer(resizeRow))),

@@ -72,7 +72,7 @@ lazy val demo =
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz" %%% "scalajs-react-virtualized" % "0.3.4-1-g90f4bc0",
+        "io.github.cquiroz" %%% "scalajs-react-virtualized" % "0.3.5",
         "io.github.cquiroz" %%% "scalajs-react-draggable" % "0.1.1"
       ),
       // don't publish the demo
