@@ -1,6 +1,7 @@
-val reactJS        = "16.5.0"
+val reactJS        = "16.2.0"
 val scalaJsReact   = "1.2.3"
 val reactDraggable = "3.0.5"
+val reactSortableHOC = "0.8.3"
 val scalaJSDom     = "0.9.6"
 
 parallelExecution in (ThisBuild, Test) := false
@@ -9,7 +10,7 @@ cancelable in Global := true
 
 addCommandAlias(
   "restartWDS",
-  "; demo/fastOptJS::stopWebpackDevServer; demo/fastOptJS::startWebpackDevServer")
+  "; demo/fastOptJS::startWebpackDevServer; ~demo/fastOptJS")
 
 val root =
   project
@@ -67,10 +68,11 @@ lazy val demo =
       npmDependencies in Compile ++= Seq(
         "react"           -> reactJS,
         "react-dom"       -> reactJS,
-        "react-draggable" -> reactDraggable
+        "react-draggable" -> reactDraggable,
+        "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz" %%% "scalajs-react-virtualized" % "0.3.4",
+        "io.github.cquiroz" %%% "scalajs-react-virtualized" % "0.3.4-1-g90f4bc0",
         "io.github.cquiroz" %%% "scalajs-react-draggable" % "0.1.1"
       ),
       // don't publish the demo
@@ -99,7 +101,7 @@ lazy val facade =
       npmDependencies in Compile ++= Seq(
         "react"           -> reactJS,
         "react-dom"       -> reactJS,
-        "react-draggable" -> reactDraggable
+        "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "core"        % scalaJsReact,
