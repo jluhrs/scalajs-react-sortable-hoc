@@ -84,6 +84,9 @@ object SortableContainer {
   def wrap[P, CT[_, _]](wrappedComponent: GenericComponent[P, CT, _]): Props => P => JsComponent.Unmounted[js.Object, Null] = {
     val reactElement = SortableContainerFacade(wrappedComponent.raw)
     val component = JsComponent[js.Object, Children.None, Null](reactElement)
+      // .componentWillReceiveProps { f =>
+      //   Callback.log("here")
+      // }
     props =>
       wrappedProps => {
         val mergedProps = js.Dynamic.literal()
@@ -105,5 +108,3 @@ object SortableContainer {
   }
 
 }
-
-

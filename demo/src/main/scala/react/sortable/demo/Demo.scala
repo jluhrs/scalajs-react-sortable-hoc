@@ -41,11 +41,9 @@ object DefaultRow {
 
   val component = ScalaComponent.builder[Props]("DefaultRow")
     .render_P{ p =>
-      <.div(
         // ^.className := "sortable-hoc-item sortable-hoc-stylizedItem",
         // SortableView.handl
         react.virtualized.raw.defaultRowRenderer(p.p)
-      )
     }
     .build
 
@@ -109,7 +107,7 @@ object MainTable {
        style: Style) => {
         val sortableItem = SortableElement.wrap(DefaultRow.component)
         sortableItem(
-          SortableElement.Props(index = index))(DefaultRow.Props(
+          SortableElement.Props(index = index, key = key, style = Style.toJsObject(style)))(DefaultRow.Props(
             react.virtualized.raw.RawRowRendererParameter(
               className,
               columns.map(_.rawNode).toJSArray,
@@ -163,6 +161,7 @@ object MainTable {
           onRowClick = x => Callback.log(x),
           width = props.s.width.toInt,
           rowGetter = datum(state.data),
+          scrollToIndex = 10,
           headerClassName = "headerColumn",
           sort = sort _,
           sortBy = props.sortBy,
