@@ -1,22 +1,134 @@
-body {
-  font-family: sans-serif;
-  font-size: 12px;
+#root,
+body,
+html {
+  height: 100%;
 }
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, Open Sans, sans-serif;
+  font-size: 12px;
+  color: #272727;
+  box-sizing: border-box;
+}
+/* Collection default theme */
+
+.ReactVirtualized__Collection {
+}
+
+.ReactVirtualized__Collection__innerScrollContainer {
+}
+
+/* Grid default theme */
+
+.ReactVirtualized__Grid {
+}
+
+.ReactVirtualized__Grid__innerScrollContainer {
+  background-color: lightgrey;
+}
+
+/* Table default theme */
 
 .ReactVirtualized__Table {
-  display: inline-block;
-  border: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-.ReactVirtualized__Table__headerColumn {
+.ReactVirtualized__Table__Grid {
+}
+
+.ReactVirtualized__Table__headerRow {
+  font-weight: 700;
+  text-transform: uppercase;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  padding: 0;
+  align-items: center;
+}
+.ReactVirtualized__Table__row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .ReactVirtualized__Table__headerTruncatedText {
-  flex: auto;
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ReactVirtualized__Table__headerColumn,
+.ReactVirtualized__Table__rowColumn {
+  margin-right: 10px;
+  min-width: 0px;
+}
+.ReactVirtualized__Table__rowColumn {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ReactVirtualized__Table__headerColumn:first-of-type,
+.ReactVirtualized__Table__rowColumn:first-of-type {
+  margin-left: 10px;
+}
+.ReactVirtualized__Table__sortableHeaderColumn {
+  cursor: pointer;
+}
+
+.ReactVirtualized__Table__sortableHeaderIconContainer {
+  display: flex;
+  align-items: center;
+}
+.ReactVirtualized__Table__sortableHeaderIcon {
+  flex: 0 0 24px;
+  height: 1em;
+  width: 1em;
+  fill: currentColor;
+}
+
+/* List default theme */
+
+.ReactVirtualized__List {
+}
+.Table {
+  width: 100%;
+  margin-top: 15px;
+}
+.headerRow,
+.evenRow,
+.oddRow {
+  border-bottom: 1px solid #e0e0e0;
+}
+.oddRow {
+  background-color: #fafafa;
+}
+.headerColumn {
+  text-transform: none;
+}
+.exampleColumn {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checkboxLabel {
+  margin-left: 0.5rem;
+}
+.checkboxLabel:first-of-type {
+  margin-left: 0;
+}
+
+.noRows {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  color: #bdbdbd;
 }
 
 .DragHandle {
@@ -43,6 +155,15 @@ body {
   align-items: center;
 }
 
+.headerRow,
+.evenRow,
+.oddRow {
+  border-bottom: 1px solid #e0e0e0;
+  background-color: white;
+}
+.oddRow {
+  background-color: #fafafa;
+}
 .list {
   width: 400px;
   height: 600px;
@@ -61,8 +182,8 @@ body {
 .stylizedList {
   position: relative;
   z-index: 0;
-  background-color: #f3f3f3;
-  border: 1px solid #efefef;
+  /* background-color: #f3f3f3;
+  border: 1px solid #efefef; */
   border-radius: 3px;
   outline: none;
 }
@@ -71,11 +192,35 @@ body {
   align-items: center;
   width: 100%;
   padding: 0 20px;
-  background-color: #fff;
-  border-bottom: 1px solid #efefef;
+  /* background-color: #fff;
+  border-bottom: 1px solid #efefef; */
   box-sizing: border-box;
   user-select: none;
 
   color: #333;
   font-weight: 400;
+}
+
+.helper {
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2),
+    0 -5px 5px -5px rgba(0, 0, 0, 0.2);
+}
+
+.stylizedHelper {
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2),
+    0 -5px 5px -5px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: row-resize;
+}
+.stylizedHelper.horizontalItem {
+  cursor: col-resize;
+}
+.stylizedHelper.gridItem {
+  background-color: transparent;
+  white-space: nowrap;
+  box-shadow: none;
+}
+.stylizedHelper.gridItem .wrapper {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
 }

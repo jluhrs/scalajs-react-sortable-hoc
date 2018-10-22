@@ -49,7 +49,7 @@ lazy val demo =
       webpackBundlingMode in fullOptJS := BundlingMode.Application,
       test := {},
       emitSourceMaps := false,
-      webpackDevServerPort := 9090,
+      webpackDevServerPort := 6060,
       npmDevDependencies in Compile ++= Seq(
         "css-loader"                         -> "1.0.0",
         "less"                               -> "3.8.1",

@@ -13,36 +13,11 @@ import react.draggable._
 import Data.DataRow
 import react.sortable._
 
-object TableDemo {
-  final case class Props(s: Size)
-
-  val component = ScalaComponent.builder[Props]("TableDemo")
-    .render_P{ p =>
-      val view = MainTable.component
-      val sortableList = SortableContainer.wrap(view)
-      sortableList(
-        SortableContainer.Props(
-          // onSortEnd = p =>
-          //   scope.modState(
-          //     l => p.updated(l).toList
-          //   ),
-          // useDragHandle = true,
-          // helperClass = "react-sortable-handler"
-        )
-      )(MainTable.Props(true, "index", p.s))
-    }
-    .build
-
-  def apply(p: Props) = component(p)
-}
-
 object DefaultRow {
   final case class Props(p: react.virtualized.raw.RawRowRendererParameter)
 
   val component = ScalaComponent.builder[Props]("DefaultRow")
     .render_P{ p =>
-        // ^.className := "sortable-hoc-item sortable-hoc-stylizedItem",
-        // SortableView.handl
         react.virtualized.raw.defaultRowRenderer(p.p)
     }
     .build
@@ -76,9 +51,9 @@ object MainTable {
     )
 
   def rowClassName(i: Int): String = i match {
-    case x if x < 0      => "sortable-hoc-item sortable-hoc-stylizedItem headerRow"
-    case x if x % 2 == 0 => "sortable-hoc-item sortable-hoc-stylizedItem evenRow"
-    case _               => "sortable-hoc-item sortable-hoc-stylizedItem oddRow"
+    case x if x < 0      => "headerRow"
+    case x if x % 2 == 0 => "evenRow"
+    case _               => "oddRow"
   }
 
   implicit class JsNumberOps(val d: JsNumber) extends AnyVal {
@@ -109,7 +84,7 @@ object MainTable {
         sortableItem(
           SortableElement.Props(index = index, key = key, style = Style.toJsObject(style)))(DefaultRow.Props(
             react.virtualized.raw.RawRowRendererParameter(
-              className,
+              className + " sortable-hoc-item sortable-hoc-stylizedItem",
               columns.map(_.rawNode).toJSArray,
               index,
               isScrolling,
@@ -126,7 +101,7 @@ object MainTable {
 
       }
 
-  val component = ScalaComponent.builder[Props]("TableDemo")
+  val component = ScalaComponent.builder[Props]("MainTable")
     .initialState(State(SortDirection.ASC, Data.generateRandomList, Widths(0.1, 0.4, 0.6)))
     .renderPS{($, props, state) =>
       def resizeRow(k: String, dx: JsNumber): Callback =
@@ -149,8 +124,16 @@ object MainTable {
         Column(Column.props((props.s.width * state.widths.name).toInt, "name", label = "Full Name", disableSort = false, headerRenderer = headerRenderer(resizeRow))),
         Column(Column.props((props.s.width * state.widths.random).toInt, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString, headerRenderer = headerRenderer(resizeRow)))
       )
-      val t = Table(
-        Table.props(
+      val sortableList = SortableContainer.wrapC(Table.component, columns.map(_.vdomElement), SortableContainer.RefConfig.WithRef)
+      sortableList(
+        SortableContainer.Props(
+          onSortEnd = p =>
+            Callback.log(s"$p"),
+          // useDragHandle = true,
+          helperClass = "stylizedHelper",
+          lockToContainerEdges = true
+        )
+      )(        Table.props(
           disableHeader = false,
           noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
           overscanRowCount = 10,
@@ -167,9 +150,7 @@ object MainTable {
           sortBy = props.sortBy,
           sortDirection = state.sortDirection,
           rowRenderer = defaultRowRendererS,
-          headerHeight = 30), columns: _*)
-      t.mapMounted(_.raw.scrollToRow(20))
-      t
+          headerHeight = 30))
     }
     .build
 
@@ -193,7 +174,7 @@ object Demo {
       elem
     }
     val tableF = (s: Size) =>
-      TableDemo(TableDemo.Props(s)).vdomElement
+      MainTable(MainTable.Props(true, "index", s)).vdomElement
 
     AutoSizer(AutoSizer.props(tableF, disableHeight = true)).renderIntoDOM(container)
     ()

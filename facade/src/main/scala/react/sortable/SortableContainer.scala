@@ -1,6 +1,7 @@
 package react.sortable
 
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -8,11 +9,28 @@ import scala.scalajs.js.annotation.JSImport
 import scala.language.higherKinds
 
 object SortableContainer {
+  @js.native
+  trait RefConfig extends js.Object {
+    var withRef: Boolean = js.native
+  }
+
+  object RefConfig {
+    val WithoutRef: RefConfig = {
+      val p = (new js.Object).asInstanceOf[RefConfig]
+      p.withRef = false
+      p
+    }
+    val WithRef: RefConfig = {
+      val p = (new js.Object).asInstanceOf[RefConfig]
+      p.withRef = true
+      p
+    }
+  }
 
   @js.native
   @JSImport("react-sortable-hoc", "SortableContainer", "Sortable.SortableContainer")
   private object SortableContainerFacade extends js.Object {
-    def apply(wrapped: js.Any): js.Any = js.native
+    def apply(wrapped: js.Any, config: RefConfig): js.Any = js.native
   }
 
   @js.native
@@ -81,12 +99,9 @@ object SortableContainer {
     * @tparam P The type of Props of the wrapped component
     * @return A component wrapping the wrapped component...
     */
-  def wrap[P, CT[_, _]](wrappedComponent: GenericComponent[P, CT, _]): Props => P => JsComponent.Unmounted[js.Object, Null] = {
-    val reactElement = SortableContainerFacade(wrappedComponent.raw)
+  def wrap[P, CT[_, _]](wrappedComponent: GenericComponent[P, CT, _], withRef: RefConfig = RefConfig.WithRef): Props => P => JsComponent.Unmounted[js.Object, Null] = {
+    val reactElement = SortableContainerFacade(wrappedComponent.raw, withRef)
     val component = JsComponent[js.Object, Children.None, Null](reactElement)
-      // .componentWillReceiveProps { f =>
-      //   Callback.log("here")
-      // }
     props =>
       wrappedProps => {
         val mergedProps = js.Dynamic.literal()
@@ -104,6 +119,36 @@ object SortableContainer {
         mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
         mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
         component(mergedProps.asInstanceOf[js.Object])
+      }
+  }
+
+
+  def wrapC[P, CT[_, _]](wrappedComponent: GenericComponent[P, CT, _], children: List[VdomElement], withRef: RefConfig = RefConfig.WithRef): Props => P => JsComponent.Unmounted[js.Object, Null] = {
+    val reactElement = SortableContainerFacade(wrappedComponent.raw, withRef)
+    val component = JsComponent[js.Object, Children.Varargs, Null](reactElement)
+    props =>
+      wrappedProps => {
+        val mergedProps = js.Dynamic.literal()
+        mergedProps.updateDynamic("axis")(props.axis)
+        mergedProps.updateDynamic("lockAxis")(props.lockAxis)
+        mergedProps.updateDynamic("helperClass")(props.helperClass)
+        mergedProps.updateDynamic("transitionDuration")(props.transitionDuration)
+        mergedProps.updateDynamic("pressDelay")(props.pressDelay)
+        mergedProps.updateDynamic("distance")(props.distance)
+        mergedProps.updateDynamic("useDragHandle")(props.useDragHandle)
+        mergedProps.updateDynamic("useWindowAsScrollContainer")(props.useWindowAsScrollContainer)
+        mergedProps.updateDynamic("hideSortableGhost")(props.hideSortableGhost)
+        mergedProps.updateDynamic("lockToContainerEdges")(props.lockToContainerEdges)
+        mergedProps.updateDynamic("onSortEnd")(props.onSortEnd)
+        mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
+        mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
+        val wp = wrappedProps.asInstanceOf[js.Object]
+        val d = wrappedProps.asInstanceOf[js.Dictionary[js.Any]]
+        for {
+          p <- js.Object.getOwnPropertyNames(wp)
+          v <- d.get(p)
+        } yield mergedProps.updateDynamic(p)(v)
+        component(mergedProps.asInstanceOf[js.Object])(children: _*)
       }
   }
 
