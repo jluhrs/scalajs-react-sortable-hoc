@@ -5,8 +5,7 @@ import japgolly.scalajs.react.vdom.Exports._
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
-
-import scala.language.higherKinds
+import org.scalajs.dom.MouseEvent
 
 object SortableContainer {
   @js.native
@@ -48,7 +47,7 @@ object SortableContainer {
     val transitionDuration: js.UndefOr[Int] = js.native
     val pressDelay: js.UndefOr[Int] = js.native
     val distance: js.UndefOr[Int] = js.native
-    //shouldCancelStart <- undef or a function from event to Boolean
+    val shouldCancelStart: js.Function1[js.Any, Boolean] = js.native
     val useDragHandle: js.UndefOr[Boolean] = js.native
     val useWindowAsScrollContainer: js.UndefOr[Boolean] = js.native
     val hideSortableGhost: js.UndefOr[Boolean] = js.native
@@ -70,7 +69,7 @@ object SortableContainer {
               transitionDuration: js.UndefOr[Int] = js.undefined,
               pressDelay: js.UndefOr[Int] = js.undefined,
               distance: js.UndefOr[Int] = js.undefined,
-              //shouldCancelStart <- undef or a function from event to Boolean
+              shouldCancelStart: ShouldCancelStart = defaultShouldCancelStart,
               useDragHandle: js.UndefOr[Boolean] = js.undefined,
               useWindowAsScrollContainer: js.UndefOr[Boolean] = js.undefined,
               hideSortableGhost: js.UndefOr[Boolean] = js.undefined,
@@ -88,7 +87,9 @@ object SortableContainer {
         axis = axis, lockAxis = lockAxis, helperClass = helperClass, transitionDuration = transitionDuration, pressDelay = pressDelay,
         distance = distance, useDragHandle = useDragHandle, useWindowAsScrollContainer = useWindowAsScrollContainer,
         hideSortableGhost = hideSortableGhost, lockToContainerEdges = lockToContainerEdges,
-        onSortEnd = js.defined { p: Permutation => onSortEnd(IndexChange(p.oldIndex, p.newIndex)).runNow() }, key = key.asInstanceOf[js.Any]
+        onSortEnd = js.defined { p: Permutation => onSortEnd(IndexChange(p.oldIndex, p.newIndex)).runNow() },
+        shouldCancelStart = {p: MouseEvent => shouldCancelStart(p).runNow() },
+        key = key.asInstanceOf[js.Any]
       ).asInstanceOf[Props]
   }
 
@@ -116,6 +117,7 @@ object SortableContainer {
         mergedProps.updateDynamic("hideSortableGhost")(props.hideSortableGhost)
         mergedProps.updateDynamic("lockToContainerEdges")(props.lockToContainerEdges)
         mergedProps.updateDynamic("onSortEnd")(props.onSortEnd)
+        mergedProps.updateDynamic("shouldCancelStart")(props.shouldCancelStart)
         mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
         mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
         component(mergedProps.asInstanceOf[js.Object])
@@ -140,6 +142,7 @@ object SortableContainer {
         mergedProps.updateDynamic("hideSortableGhost")(props.hideSortableGhost)
         mergedProps.updateDynamic("lockToContainerEdges")(props.lockToContainerEdges)
         mergedProps.updateDynamic("onSortEnd")(props.onSortEnd)
+        mergedProps.updateDynamic("shouldCancelStart")(props.shouldCancelStart)
         mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
         mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
         val wp = wrappedProps.asInstanceOf[js.Object]

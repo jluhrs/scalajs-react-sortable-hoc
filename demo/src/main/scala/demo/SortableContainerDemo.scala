@@ -41,10 +41,6 @@ object SortableContainerDemo {
     def render(props: Unit, items: List[String]) = {
       sortableList(
         SortableContainer.Props(
-          onSortEnd = p =>
-            scope.modState(
-              l => p.updated(l).toList
-            ),
           useDragHandle = true,
           helperClass = "react-sortable-handler"
         )
