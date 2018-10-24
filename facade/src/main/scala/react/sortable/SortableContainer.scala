@@ -2,9 +2,11 @@ package react.sortable
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.Exports._
-
+// import japgolly.scalajs.react.raw.React
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
+import js.JSConverters._
+import org.scalajs.dom
 import org.scalajs.dom.MouseEvent
 
 object SortableContainer {
@@ -54,6 +56,7 @@ object SortableContainer {
     val lockToContainerEdges: js.UndefOr[Boolean] = js.native
     //lockOffset <- really not sure what this is from docs - maybe a string like "50%"?
     //getContainer <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
+    val getContainer: js.UndefOr[js.Function1[dom.Element, dom.Element]] = js.native
     //getHelperDimensions <- undef or function({node, index, collection})
     //Note this function actually gets "{oldIndex, newIndex, collection}, e", but we don't have much use for the other arguments
     val onSortEnd: js.Function1[Permutation, Unit] = js.native
@@ -75,7 +78,7 @@ object SortableContainer {
               hideSortableGhost: js.UndefOr[Boolean] = js.undefined,
               lockToContainerEdges: js.UndefOr[Boolean] = js.undefined,
               //lockOffset <- really not sure what this is from docs - maybe a string like "50%"?
-              //getContainer <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
+              getContainer: Option[js.Function1[dom.Element, dom.Element]] = None,// <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
               //getHelperDimensions <- undef or function({node, index, collection})
               //Note this function actually gets "{oldIndex, newIndex, collection}, e", but we don't have much use for the other arguments
               onSortEnd: IndexChange => Callback = _ => Callback.empty,
@@ -87,6 +90,7 @@ object SortableContainer {
         axis = axis, lockAxis = lockAxis, helperClass = helperClass, transitionDuration = transitionDuration, pressDelay = pressDelay,
         distance = distance, useDragHandle = useDragHandle, useWindowAsScrollContainer = useWindowAsScrollContainer,
         hideSortableGhost = hideSortableGhost, lockToContainerEdges = lockToContainerEdges,
+        getContainer = getContainer.orUndefined,
         onSortEnd = js.defined { p: Permutation => onSortEnd(IndexChange(p.oldIndex, p.newIndex)).runNow() },
         shouldCancelStart = {p: MouseEvent => shouldCancelStart(p).runNow() },
         key = key.asInstanceOf[js.Any]
@@ -118,6 +122,7 @@ object SortableContainer {
         mergedProps.updateDynamic("lockToContainerEdges")(props.lockToContainerEdges)
         mergedProps.updateDynamic("onSortEnd")(props.onSortEnd)
         mergedProps.updateDynamic("shouldCancelStart")(props.shouldCancelStart)
+        mergedProps.updateDynamic("getContainer")(props.getContainer)
         mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
         mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
         component(mergedProps.asInstanceOf[js.Object])
@@ -143,6 +148,7 @@ object SortableContainer {
         mergedProps.updateDynamic("lockToContainerEdges")(props.lockToContainerEdges)
         mergedProps.updateDynamic("onSortEnd")(props.onSortEnd)
         mergedProps.updateDynamic("shouldCancelStart")(props.shouldCancelStart)
+        mergedProps.updateDynamic("getContainer")(props.getContainer)
         mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
         mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
         val wp = wrappedProps.asInstanceOf[js.Object]

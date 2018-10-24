@@ -6,6 +6,7 @@ import js.JSConverters._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.ReactDOM
 import org.scalajs.dom
 import org.scalajs.dom.MouseEvent
 import react.virtualized._
@@ -66,39 +67,37 @@ object MainTable {
       (i: react.virtualized.raw.RawIndexParameter) => cb(i.index).runNow()
   }
 
-
-    def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
-      (className: String,
-       columns: Array[VdomNode],
-       index: Int,
-       isScrolling: Boolean,
-       key: String,
-       rowData: C,
-       onRowClick: Option[OnRowClick],
-       onRowDoubleClick: Option[OnRowClick],
-       onRowMouseOut: Option[OnRowClick],
-       onRowMouseOver: Option[OnRowClick],
-       onRowRightClick: Option[OnRowClick],
-       style: Style) => {
-        val sortableItem = SortableElement.wrap(DefaultRow.component)
-        sortableItem(
-          SortableElement.Props(index = index, key = key, style = Style.toJsObject(style)))(DefaultRow.Props(
-            react.virtualized.raw.RawRowRendererParameter(
-              className + " sortable-hoc-item sortable-hoc-stylizedItem",
-              columns.map(_.rawNode).toJSArray,
-              index,
-              isScrolling,
-              key,
-              rowData,
-              onRowClick.map(_.toJsCallback).orUndefined,
-              onRowDoubleClick.map(_.toJsCallback).orUndefined,
-              onRowMouseOut.map(_.toJsCallback).orUndefined,
-              onRowMouseOver.map(_.toJsCallback).orUndefined,
-              onRowRightClick.map(_.toJsCallback).orUndefined,
-              Style.toJsObject(style)
-            ))
-          )
-
+  def defaultRowRendererS[C <: js.Object]: RowRenderer[C] =
+    (className: String,
+     columns: Array[VdomNode],
+     index: Int,
+     isScrolling: Boolean,
+     key: String,
+     rowData: C,
+     onRowClick: Option[OnRowClick],
+     onRowDoubleClick: Option[OnRowClick],
+     onRowMouseOut: Option[OnRowClick],
+     onRowMouseOver: Option[OnRowClick],
+     onRowRightClick: Option[OnRowClick],
+     style: Style) => {
+      val sortableItem = SortableElement.wrap(DefaultRow.component)
+      sortableItem(
+        SortableElement.Props(index = index, key = key, style = Style.toJsObject(style)))(DefaultRow.Props(
+          react.virtualized.raw.RawRowRendererParameter(
+            className + " sortable-hoc-item sortable-hoc-stylizedItem",
+            columns.map(_.rawNode).toJSArray,
+            index,
+            isScrolling,
+            key,
+            rowData,
+            onRowClick.map(_.toJsCallback).orUndefined,
+            onRowDoubleClick.map(_.toJsCallback).orUndefined,
+            onRowMouseOut.map(_.toJsCallback).orUndefined,
+            onRowMouseOver.map(_.toJsCallback).orUndefined,
+            onRowRightClick.map(_.toJsCallback).orUndefined,
+            Style.toJsObject(style)
+          ))
+        )
       }
 
   val component = ScalaComponent.builder[Props]("MainTable")
@@ -110,7 +109,7 @@ object MainTable {
           k match {
             case "index" => s.copy(widths = s.widths.copy(s.widths.index + percentDelta, s.widths.name - percentDelta, s.widths.random - percentDelta))
             case "name" => s.copy(widths = s.widths.copy(s.widths.index + percentDelta, s.widths.name + percentDelta, s.widths.random - percentDelta))
-            case "randow" => s.copy(widths = s.widths.copy(s.widths.index + percentDelta, s.widths.name + percentDelta, s.widths.random + percentDelta))
+            case "random" => s.copy(widths = s.widths.copy(s.widths.index + percentDelta, s.widths.name + percentDelta, s.widths.random + percentDelta))
           }
         }
 
@@ -131,6 +130,11 @@ object MainTable {
             Callback.log(s"$p"),
           // useDragHandle = true,
           helperClass = "stylizedHelper",
+          getContainer = Option((y: dom.Element) =>
+            ReactDOM.findDOMNode(y) match {
+              case Some(Right(y)) => y.querySelector(".ReactVirtualized__Table__Grid")
+              case _ => y
+            }),
           lockToContainerEdges = true
         )
       )(        Table.props(
