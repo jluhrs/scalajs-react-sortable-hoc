@@ -36,7 +36,7 @@ object MainTable {
   final case class State(sortDirection: SortDirection, data: List[DataRow], widths: Widths)
 
   def headerRenderer(rs: (String, JsNumber) => Callback)(columnData: DataRow, dataKey: String, disableSort: Option[Boolean], label: VdomNode, sortByParam: Option[String], sortDirection: SortDirection): VdomNode =
-    ReactFragment.withKey(dataKey)(
+    React.Fragment.withKey(dataKey)(
       <.div(
         ^.cls := "ReactVirtualized__Table__headerTruncatedText",
         label
@@ -131,10 +131,9 @@ object MainTable {
           // useDragHandle = true,
           helperClass = "stylizedHelper",
           getContainer = Option((y: dom.Element) =>
-            ReactDOM.findDOMNode(y) match {
-              case Some(Right(y)) => y.querySelector(".ReactVirtualized__Table__Grid")
-              case _ => y
-            }),
+            ReactDOM.findDOMNode(y).flatMap { y =>
+              y.toElement.map(_.querySelector(".ReactVirtualized__Table__Grid"))
+            }.getOrElse(y)),
           lockToContainerEdges = true
         )
       )(        Table.props(
