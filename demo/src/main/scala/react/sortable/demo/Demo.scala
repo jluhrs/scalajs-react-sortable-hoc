@@ -46,6 +46,7 @@ object MainTable {
           defaultClassName = "DragHandle",
           defaultClassNameDragging = "DragHandleActive",
           onDrag = (ev: MouseEvent, d: DraggableData) => rs(dataKey, d.deltaX),
+          // onDrag = (ev: MouseEvent, d: DraggableData) => Callback.log("Here"),
           position = ControlPosition(0)),
         <.span(^.cls := "DragHandleIcon", "⋮")
       )
@@ -136,7 +137,7 @@ object MainTable {
             }.getOrElse(y)),
           lockToContainerEdges = true
         )
-      )(        Table.props(
+      )(Table.props(
           disableHeader = false,
           noRowsRenderer = () => <.div(^.cls := "noRows", "No rows"),
           overscanRowCount = 10,

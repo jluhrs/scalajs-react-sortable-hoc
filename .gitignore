@@ -18,3 +18,9 @@ project/plugins/project/
 .idea
 .metals/
 .bloop/
+
+local.*
+node_modules/
+package-lock.json
+yarn.lock
+travis/secrets.tar

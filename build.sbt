@@ -11,6 +11,8 @@ addCommandAlias(
   "restartWDS",
   "; demo/fastOptJS::startWebpackDevServer; ~demo/fastOptJS")
 
+resolvers in Global += Resolver.sonatypeRepo("staging")
+
 val root =
   project
     .in(file("."))
@@ -35,7 +37,7 @@ lazy val demo =
     .settings(commonSettings: _*)
     .settings(
       version in webpack := "4.28.2",
-      version in startWebpackDevServer := "3.1.11",
+      version in startWebpackDevServer := "3.1.14",
       webpackConfigFile in fastOptJS := Some(
         baseDirectory.value / "src" / "webpack" / "webpack-dev.config.js"),
       webpackConfigFile in fullOptJS := Some(
@@ -70,8 +72,8 @@ lazy val demo =
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz" %%% "scalajs-react-virtualized" % "0.4.3",
-        "io.github.cquiroz" %%% "scalajs-react-draggable" % "0.2.3"
+        "io.github.cquiroz.react" %%% "react-virtualized" % "0.5.0",
+        "io.github.cquiroz.react" %%% "react-draggable" % "0.3.2"
       ),
       // don't publish the demo
       publish := {},
@@ -91,7 +93,7 @@ lazy val facade =
     .settings(
       name := "scalajs-react-sortable-hoc",
       version in webpack := "4.28.2",
-      version in startWebpackDevServer := "3.1.11",
+      version in startWebpackDevServer := "3.1.14",
       // Requires the DOM for tests
       requireJsDomEnv in Test := true,
       version in installJsdom := "12.0.0",
@@ -108,7 +110,7 @@ lazy val facade =
         "org.scala-js"                      %%% "scalajs-dom" % scalaJSDom,
         "com.github.japgolly.scalajs-react" %%% "test"        % scalaJsReact % Test,
         "com.lihaoyi"                       %%% "utest"       % "0.6.6" % Test,
-        "org.typelevel"                     %%% "cats-core"   % "1.5.0" % Test
+        "org.typelevel"                     %%% "cats-core"   % "1.6.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "src" / "webpack" / "test.webpack.config.js"),
       testFrameworks += new TestFramework("utest.runner.Framework")
