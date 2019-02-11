@@ -11,6 +11,8 @@ import org.scalajs.dom
 import org.scalajs.dom.MouseEvent
 import react.virtualized._
 import react.draggable._
+import react.common._
+import react.common.syntax._
 import Data.DataRow
 import react.sortable._
 
@@ -83,7 +85,7 @@ object MainTable {
      style: Style) => {
       val sortableItem = SortableElement.wrap(DefaultRow.component)
       sortableItem(
-        SortableElement.Props(index = index, key = key, style = Style.toJsObject(style)))(DefaultRow.Props(
+        SortableElement.Props(index = index, key = key, style = style.toJsObject))(DefaultRow.Props(
           react.virtualized.raw.RawRowRendererParameter(
             className + " sortable-hoc-item sortable-hoc-stylizedItem",
             columns.map(_.rawNode).toJSArray,
@@ -96,7 +98,7 @@ object MainTable {
             onRowMouseOut.map(_.toJsCallback).orUndefined,
             onRowMouseOver.map(_.toJsCallback).orUndefined,
             onRowRightClick.map(_.toJsCallback).orUndefined,
-            Style.toJsObject(style)
+            style.toJsObject
           ))
         )
       }

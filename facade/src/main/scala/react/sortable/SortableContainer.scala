@@ -81,6 +81,7 @@ object SortableContainer {
               getContainer: Option[js.Function1[dom.Element, dom.Element]] = None,// <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
               //getHelperDimensions <- undef or function({node, index, collection})
               //Note this function actually gets "{oldIndex, newIndex, collection}, e", but we don't have much use for the other arguments
+              //updateBeforeSortStart <- undef or function({node, index, collection}, event)
               onSortEnd: IndexChange => Callback = _ => Callback.empty,
               //onSortStart <- undef or function({node, index, collection}, event)
               //onSortMove <- undef or function(event)
