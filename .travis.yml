@@ -1,0 +1,30 @@
+language: scala
+scala:
+  - 2.12.8
+jdk:
+  - oraclejdk8
+cache:
+  directories:
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.sbt/boot/"
+before_cache:
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+  - find $HOME/.sbt -name "*.lock" -delete
+install:
+  - ". $HOME/.nvm/nvm.sh"
+  - nvm install 9.4.0
+  - nvm use 9.4.0
+  - npm install jsdom
+script:
+  - node --version
+  - sbt facade/test
+after_success:
+  - if [ $TRAVIS_PULL_REQUEST = 'false' ]; then sbt ++$TRAVIS_SCALA_VERSION releaseEarly;
+    fi
+before_install:
+  - if [ $TRAVIS_PULL_REQUEST = 'false' ]; then git status; openssl aes-256-cbc -K $encrypted_7bd220e3e62f_key -iv $encrypted_7bd220e3e62f_iv -in travis/secrets.tar.enc -out travis/local.secrets.tar -d; tar xv -C travis -f travis/local.secrets.tar; fi
+env:
+  global:
+    - secure: ImtCNDZYZhlWYrH4MAPS0jnXOsIipjaiGVVwKHCucRjQkLXD334Mmu1q94djROfWj5FzNkJBSYiKXHXcdWdB7MusiW87jf2APqnvYLqtIxJGudaXv2EshuWM3hurpoLJ0h6VkrpMjh9V1yRJGSUpzyLo2ifgiqNBaDuSCwYoJXYCh0XWbDYtMs8vF1UHIxVeblvluPnTy4vyJpCGAMp38YC6YcSZs1sv8N2ofMVn6rXoUi2GatIdgvjxcSQPF+MqBLg7AOdn2PqgWNJcXSt/YhuebgxoH4yo6arvv2lT2/HCrUjZOA2vIAfhmKaYQDtmQArsTwZos2RLajhwYvNpCwmL/KcRQbN96VGCrBymvvbiD/J7efHnUy4REKl50mLQmogezqXx+BdSZqtXTBq0yn65z6QZnfGBuB4MmSbZFlZlGBnvuhhQhMg4uXGU/UU1ZX46ggZ5cUQ/3DrJ9alFKGwCevgfWIxbebZsFeyfNk2Um+l8NJvKuyUbmjjEoWD0+fY2Pu4z87W+OmIbicsgo1NuOvk1VFRpE5DXNh1edbc+eSs2Ea2RGnaF808YCkS4+HcHvSlrtUO5B+x0HZc2p6q9/s9zJphPby5DYqpdkUEdXSuQsB2yJT66a0BFOqOAervWawjCZg6X83eKppbf4woYAV4jy3EcXIQ+FoqR1PA=
+    - secure: W7hEHuExmcw/rntMce8FHYmX9/EkQuE2fPZBCJ6gpt08gzVUd9oMtHEdyxhT3EoVmmciMF/18tjuylgPhaH7A470pp0m02H5KfeBeVVR16IiYMK69xDI3Sh55WigIeiVX7j+1gDEmqa9gZfOu0lHJhCWcm2CyoUIifLv0kWOB7PY0jeGQ4ecvksYgUudaqpxwDAAarcJtDRPlzzXVreisT5C4ZzSR3egsIgMqjQqjNqV34w3XebBUIruCiGQMO9Vl08xAduHi9AyPlKSxT67IC0reRlTwb1eb8KVaLWRogHm4WBKzlqadtWPG1v0zXpl34+o2xgVn38SPZKUGXKWSmGDBOW8agQCyR0NiLSACyIwUYcG+4/iVl6MlRkhLEwbucYwzdFagKzKs8WBE8G2bGagaXdCHGRgmSa1EWCAiUdvP7xlPIjJGvuRz47BTvHT3nfgEGvNev9aUSMooUiHN4MvucoTwyuYLU87y9R0O7VxFCusMPCtS+b2/pHSerZth6dZMyNQkgpBNa2Ma4zA5ExbKHXsL26JE4oqsqTq25sc9yQXScrHmgXbBZ870prVxVH0xdL4Z9VtR3EgsBgHAZvW0c2tMgaikXE2WEEyktJXpgTRT50y6Q1rU0aoNhNVOrjrYroQER5Ih/9tUMah6GuqXlxh4TLoKXpMwpJ82h4=
+    - secure: RE6qzk+kwJluWcUsgO9Xc/j74vm54NvMOBO4I5Fb62WIHXVVkUKlK7/vnI1n7muVVukOvzDFtxwr5A5g9d5/v9ZNwDDhx2RixpOuFceEU5n2sZX6qf5iYIfpOXtuKQlm7cgXAIMW+MLC1eOCFgCfonyOLCwlFX0ZEmC8kXitpBE07CYHMV9D19KCsCgq66iJvdchlJNPAVR3EPIJ+Z7ndq075RwUrxByVUy2+pY5h4lmnB93IY9Wg/TJTWMRTdNKs4IZGiQHkcEBmZEF1ck8wyWLveQrlnnidcPWNKFwQuCQLFnpIwxJGQ3cB2nxNVf63s8bD15oCR1h1wNj87BFRYtHI4BxYI2ee69XdjStF1t+pwLcBMtkUZ9bJatFvMcoEjQXabVoM2RVTmo312uXQaPT7x73lst6CUpdYd0eOKVfr1MThLcqiQneuv7O+fogTL/6RFRojU2aGSDqi4hHODfpFx3PqpFgfrCVuDX2iw69fWI0Visy7luZVd9x+2ns2rYxgjWJQz2PsekUKDkTDuLLRV8idZ7nvSQZ8vZ2Y7Xohk8S5udsv3zF9YKVvgRcdY8/SScHPpKkUM2p/REFtEBvUzcmO7Jxom2koXqsRY3QSbdHYjK1FmCDyAWETpL4q5eq7yFRuAPkuqpoJ56IKe4oeYBffhBdyLGgXJdt7y8=
