@@ -12,8 +12,6 @@ body {
   box-sizing: border-box;
 }
 /* Collection default theme */
-//===========================
-// Styles for column dragging
 .DragHandle {
   flex: 0 0 16px;
   z-index: 2;

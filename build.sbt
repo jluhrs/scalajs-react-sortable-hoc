@@ -1,7 +1,7 @@
-val reactJS        = "16.5.1"
-val scalaJsReact   = "1.3.1"
+val reactJS        = "16.7.0"
+val scalaJsReact   = "1.4.2"
 val reactSortableHOC = "0.8.4"
-val scalaJSDom     = "0.9.6"
+val scalaJSDom     = "0.9.7"
 
 parallelExecution in (ThisBuild, Test) := false
 
@@ -81,8 +81,8 @@ lazy val demo =
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz.react" %%% "react-virtualized" % "0.5.0",
-        "io.github.cquiroz.react" %%% "react-draggable" % "0.3.2"
+        "io.github.cquiroz.react" %%% "react-virtualized" % "0.6.0",
+        "io.github.cquiroz.react" %%% "react-draggable" % "0.4.0"
       ),
       // don't publish the demo
       publish := {},
@@ -116,7 +116,7 @@ lazy val facade =
         "com.github.japgolly.scalajs-react" %%% "extra"       % scalaJsReact,
         "org.scala-js"                      %%% "scalajs-dom" % scalaJSDom,
         "com.github.japgolly.scalajs-react" %%% "test"        % scalaJsReact % Test,
-        "com.lihaoyi"                       %%% "utest"       % "0.6.6" % Test,
+        "com.lihaoyi"                       %%% "utest"       % "0.6.7" % Test,
         "org.typelevel"                     %%% "cats-core"   % "1.6.0" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "src" / "webpack" / "test.webpack.config.js"),
