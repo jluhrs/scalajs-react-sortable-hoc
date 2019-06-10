@@ -81,8 +81,8 @@ lazy val demo =
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz.react" %%% "react-virtualized" % "0.6.0",
-        "io.github.cquiroz.react" %%% "react-draggable" % "0.4.0"
+        "io.github.cquiroz.react" %%% "react-virtualized" % "0.6.2",
+        "io.github.cquiroz.react" %%% "react-draggable" % "0.4.1"
       ),
       // don't publish the demo
       publish := {},
@@ -116,8 +116,8 @@ lazy val facade =
         "com.github.japgolly.scalajs-react" %%% "extra"       % scalaJsReact,
         "org.scala-js"                      %%% "scalajs-dom" % scalaJSDom,
         "com.github.japgolly.scalajs-react" %%% "test"        % scalaJsReact % Test,
-        "com.lihaoyi"                       %%% "utest"       % "0.6.7" % Test,
-        "org.typelevel"                     %%% "cats-core"   % "1.6.0" % Test
+        "com.lihaoyi"                       %%% "utest"       % "0.6.9" % Test,
+        "org.typelevel"                     %%% "cats-core"   % "1.6.1" % Test
       ),
       webpackConfigFile in Test       := Some(baseDirectory.value / "src" / "webpack" / "test.webpack.config.js"),
       testFrameworks += new TestFramework("utest.runner.Framework")

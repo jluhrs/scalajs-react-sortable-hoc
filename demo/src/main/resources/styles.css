@@ -138,8 +138,6 @@ body {
 .ReactVirtualized__Table__Grid {
   outline: none;
 }
-.ReactVirtualized__Grid__innerScrollContainer {
-}
 .ReactVirtualized__Table__row {
   display: flex;
   flex-direction: row;
