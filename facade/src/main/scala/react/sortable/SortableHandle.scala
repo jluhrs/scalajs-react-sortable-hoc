@@ -19,9 +19,11 @@ object SortableHandle {
     * @tparam P The type of Props of the wrapped component
     * @return A component wrapping the wrapped component
     */
-  def wrap[P, CT[_, _]](wrappedComponent: GenericComponent[P, CT, _]): P => JsComponent.Unmounted[js.Object, Null] = {
+  def wrap[P, CT[_, _]](
+    wrappedComponent: GenericComponent[P, CT, _]
+  ): P => JsComponent.Unmounted[js.Object, Null] = {
     val reactElement = SortableHandleFacade(wrappedComponent.raw)
-    val component = JsComponent[js.Object, Children.None, Null](reactElement)
+    val component    = JsComponent[js.Object, Children.None, Null](reactElement)
     wrappedProps => {
       val mergedProps = js.Dynamic.literal()
       mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
