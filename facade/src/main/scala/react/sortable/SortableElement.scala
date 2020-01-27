@@ -5,8 +5,6 @@ import japgolly.scalajs.react._
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
-import scala.language.higherKinds
-
 object SortableElement {
 
   @js.native

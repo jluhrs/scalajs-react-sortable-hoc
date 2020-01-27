@@ -108,7 +108,7 @@ object MainTable {
     .renderPS{($, props, state) =>
       def resizeRow(k: String, dx: JsNumber): Callback =
         $.modState { s =>
-          val percentDelta = dx.toDouble / props.s.width
+          val percentDelta = dx.toDouble / props.s.width.toDouble
           k match {
             case "index" => s.copy(widths = s.widths.copy(s.widths.index + percentDelta, s.widths.name - percentDelta, s.widths.random - percentDelta))
             case "name" => s.copy(widths = s.widths.copy(s.widths.index + percentDelta, s.widths.name + percentDelta, s.widths.random - percentDelta))
@@ -122,9 +122,9 @@ object MainTable {
       }
 
       val columns = List(
-        Column(Column.props((props.s.width * state.widths.index).toInt, "index", label = "Index", disableSort = false, headerRenderer = headerRenderer(resizeRow))),
-        Column(Column.props((props.s.width * state.widths.name).toInt, "name", label = "Full Name", disableSort = false, headerRenderer = headerRenderer(resizeRow))),
-        Column(Column.props((props.s.width * state.widths.random).toInt, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString, headerRenderer = headerRenderer(resizeRow)))
+        Column(Column.props((props.s.width.toDouble * state.widths.index).toInt, "index", label = "Index", disableSort = false, headerRenderer = headerRenderer(resizeRow))),
+        Column(Column.props((props.s.width.toDouble * state.widths.name).toInt, "name", label = "Full Name", disableSort = false, headerRenderer = headerRenderer(resizeRow))),
+        Column(Column.props((props.s.width.toDouble * state.widths.random).toInt, "random", disableSort = true, className = "exampleColumn", label = "The description label is so long it will be truncated", flexGrow = 1, cellRenderer = (cellData: DataRow, _: js.Any, _: String, _: js.Any, _: Int) => cellData.toString, headerRenderer = headerRenderer(resizeRow)))
       )
       val sortableList = SortableContainer.wrapC(Table.component, columns.map(_.vdomElement), SortableContainer.RefConfig.WithRef)
       sortableList(
@@ -148,7 +148,7 @@ object MainTable {
           rowCount = 1000,
           rowHeight = if (props.useDynamicRowHeight) rowheight(state.data) _ else 40,
           onRowClick = x => Callback.log(x),
-          width = props.s.width.toInt,
+          width = props.s.width.toDouble.toInt,
           rowGetter = datum(state.data),
           scrollToIndex = 10,
           headerClassName = "headerColumn",
