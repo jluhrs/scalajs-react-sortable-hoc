@@ -1,5 +1,10 @@
 # Changes
 
+## 0.4.0
+
+* Update to scalajs 1.0
+* Update to scalajs->react 1.7.0
+
 ## 0.3.0
 
 * Library updates and cross compilation

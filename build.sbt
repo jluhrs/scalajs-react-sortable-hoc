@@ -1,24 +1,34 @@
-val reactJS        = "16.7.0"
-val scalaJsReact   = "1.6.0"
+val reactJS          = "16.13.1"
+val scalaJsReact     = "1.7.0"
 val reactSortableHOC = "1.10.1"
-val scalaJSDom     = "0.9.8"
+val scalaJSDom       = "1.0.0"
 
 parallelExecution in (ThisBuild, Test) := false
 
 cancelable in Global := true
 
-addCommandAlias(
-  "restartWDS",
-  "; demo/fastOptJS::startWebpackDevServer; ~demo/fastOptJS")
+addCommandAlias("restartWDS", "; demo/fastOptJS::startWebpackDevServer; ~demo/fastOptJS")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-inThisBuild(List(
-  homepage                := Some(url("https://github.com/cquiroz/scalajs-react-sortable-hoc")),
-  licenses                := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
-    developers := List(Developer("cquiroz", "Carlos Quiroz", "carlos.m.quiroz@gmail.com", url("https://github.com/cquiroz"))),
-    scmInfo := Some(ScmInfo(url("https://github.com/cquiroz/scalajs-react-sortable-hoc"), "scm:git:git@github.com:cquiroz/scalajs-react-sortable-hoc.git")),
-))
+inThisBuild(
+  List(
+    homepage := Some(url("https://github.com/cquiroz/scalajs-react-sortable-hoc")),
+    licenses := Seq("BSD 3-Clause License" -> url("https://opensource.org/licenses/BSD-3-Clause")),
+    developers := List(
+      Developer("cquiroz",
+                "Carlos Quiroz",
+                "carlos.m.quiroz@gmail.com",
+                url("https://github.com/cquiroz")
+      )
+    ),
+    scmInfo := Some(
+      ScmInfo(url("https://github.com/cquiroz/scalajs-react-sortable-hoc"),
+              "scm:git:git@github.com:cquiroz/scalajs-react-sortable-hoc.git"
+      )
+    )
+  )
+)
 
 val root =
   project
@@ -44,9 +54,11 @@ lazy val demo =
       version in webpack := "4.28.2",
       version in startWebpackDevServer := "3.1.14",
       webpackConfigFile in fastOptJS := Some(
-        baseDirectory.value / "src" / "webpack" / "webpack-dev.config.js"),
+        baseDirectory.value / "src" / "webpack" / "webpack-dev.config.js"
+      ),
       webpackConfigFile in fullOptJS := Some(
-        baseDirectory.value / "src" / "webpack" / "webpack-prod.config.js"),
+        baseDirectory.value / "src" / "webpack" / "webpack-prod.config.js"
+      ),
       webpackMonitoredDirectories += (resourceDirectory in Compile).value,
       webpackResources := (baseDirectory.value / "src" / "webpack") * "*.js",
       includeFilter in webpackMonitoredFiles := "*",
@@ -54,7 +66,6 @@ lazy val demo =
       webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly(),
       webpackBundlingMode in fullOptJS := BundlingMode.Application,
       test := {},
-      emitSourceMaps := false,
       webpackDevServerPort := 6060,
       npmDevDependencies in Compile ++= Seq(
         "css-loader"                         -> "1.0.0",
@@ -72,13 +83,13 @@ lazy val demo =
         "autoprefixer"                       -> "9.1.5"
       ),
       npmDependencies in Compile ++= Seq(
-        "react"           -> reactJS,
-        "react-dom"       -> reactJS,
+        "react"              -> reactJS,
+        "react-dom"          -> reactJS,
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz.react" %%% "react-virtualized" % "0.7.1",
-        "io.github.cquiroz.react" %%% "react-draggable" % "0.7.1"
+        "io.github.cquiroz.react" %%% "react-virtualized" % "0.8.0",
+        "io.github.cquiroz.react" %%% "react-draggable"   % "0.8.0"
       ),
       // don't publish the demo
       publish := {},
@@ -99,12 +110,12 @@ lazy val facade =
       version in startWebpackDevServer := "3.1.14",
       // Requires the DOM for tests
       requireJsDomEnv in Test := true,
-      version in installJsdom := "12.0.0",
+      // version in installJsdom := "12.0.0",
       // Compile tests to JS using fast-optimisation
       // scalaJSStage in Test            := FastOptStage,
       npmDependencies in Compile ++= Seq(
-        "react"           -> reactJS,
-        "react-dom"       -> reactJS,
+        "react"              -> reactJS,
+        "react-dom"          -> reactJS,
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
@@ -112,26 +123,28 @@ lazy val facade =
         "com.github.japgolly.scalajs-react" %%% "extra"       % scalaJsReact,
         "org.scala-js"                      %%% "scalajs-dom" % scalaJSDom,
         "com.github.japgolly.scalajs-react" %%% "test"        % scalaJsReact % Test,
-        "com.lihaoyi"                       %%% "utest"       % "0.7.3" % Test,
-        "org.typelevel"                     %%% "cats-core"   % "2.1.0" % Test
+        "com.lihaoyi"                       %%% "utest"       % "0.7.4"      % Test,
+        "org.typelevel"                     %%% "cats-core"   % "2.1.1"      % Test
       ),
-      webpackConfigFile in Test       := Some(baseDirectory.value / "src" / "webpack" / "test.webpack.config.js"),
+      webpackConfigFile in Test := Some(
+        baseDirectory.value / "src" / "webpack" / "test.webpack.config.js"
+      ),
       testFrameworks += new TestFramework("utest.runner.Framework")
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.13.1",
-  crossScalaVersions := List("2.13.1", "2.12.10"),
+  scalaVersion := "2.13.2",
   organization := "io.github.cquiroz.react",
-  sonatypeProfileName     := "io.github.cquiroz",
+  sonatypeProfileName := "io.github.cquiroz",
   description := "scala.js facade for react-sortable-hoc ",
   publishArtifact in Test := false,
-  scalacOptions ~= (_.filterNot(Set(
-    // By necessity facades will have unused params
-    "-Wdead-code",
-    "-Wunused:params",
-    "-Ywarn-dead-code",
-    "-Ywarn-unused:params"
-  ))),
-  scalacOptions += "-P:scalajs:sjsDefinedByDefault"
+  scalacOptions ~= (_.filterNot(
+    Set(
+      // By necessity facades will have unused params
+      "-Wdead-code",
+      "-Wunused:params",
+      "-Ywarn-dead-code",
+      "-Ywarn-unused:params"
+    )
+  ))
 )

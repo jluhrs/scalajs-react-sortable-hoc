@@ -31,11 +31,12 @@ object SortableElement {
       style:      js.UndefOr[js.Object] = js.undefined
     ): Props =
       js.Dynamic
-        .literal(index      = index,
+        .literal(index = index,
                  collection = collection,
-                 disabled   = disabled,
-                 key        = key.asInstanceOf[js.Any],
-                 style      = style)
+                 disabled = disabled,
+                 key = key.asInstanceOf[js.Any],
+                 style = style
+        )
         .asInstanceOf[Props]
   }
 

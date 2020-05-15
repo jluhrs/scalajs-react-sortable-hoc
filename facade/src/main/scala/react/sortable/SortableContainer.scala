@@ -43,64 +43,65 @@ object SortableContainer {
 
   @js.native
   trait Props extends js.Object {
-    val axis: js.UndefOr[String]                         = js.native
-    val lockAxis: js.UndefOr[String]                     = js.native
-    val helperClass: js.UndefOr[String]                  = js.native
-    val transitionDuration: js.UndefOr[Int]              = js.native
-    val pressDelay: js.UndefOr[Int]                      = js.native
-    val distance: js.UndefOr[Int]                        = js.native
-    val shouldCancelStart: js.Function1[js.Any, Boolean] = js.native
-    val useDragHandle: js.UndefOr[Boolean]               = js.native
-    val useWindowAsScrollContainer: js.UndefOr[Boolean]  = js.native
-    val hideSortableGhost: js.UndefOr[Boolean]           = js.native
-    val lockToContainerEdges: js.UndefOr[Boolean]        = js.native
+    val axis: js.UndefOr[String]                                         = js.native
+    val lockAxis: js.UndefOr[String]                                     = js.native
+    val helperClass: js.UndefOr[String]                                  = js.native
+    val transitionDuration: js.UndefOr[Int]                              = js.native
+    val pressDelay: js.UndefOr[Int]                                      = js.native
+    val distance: js.UndefOr[Int]                                        = js.native
+    val shouldCancelStart: js.Function1[js.Any, Boolean]                 = js.native
+    val useDragHandle: js.UndefOr[Boolean]                               = js.native
+    val useWindowAsScrollContainer: js.UndefOr[Boolean]                  = js.native
+    val hideSortableGhost: js.UndefOr[Boolean]                           = js.native
+    val lockToContainerEdges: js.UndefOr[Boolean]                        = js.native
     //lockOffset <- really not sure what this is from docs - maybe a string like "50%"?
     //getContainer <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
     val getContainer: js.UndefOr[js.Function1[dom.Element, dom.Element]] = js.native
     //getHelperDimensions <- undef or function({node, index, collection})
     //Note this function actually gets "{oldIndex, newIndex, collection}, e", but we don't have much use for the other arguments
-    val onSortEnd: js.Function1[Permutation, Unit] = js.native
+    val onSortEnd: js.Function1[Permutation, Unit]                       = js.native
     //onSortStart <- undef or function({node, index, collection}, event)
     //onSortMove <- undef or function(event)
-    var key: js.UndefOr[Key] = js.native
+    var key: js.UndefOr[Key]                                             = js.native
   }
 
   object Props {
     def apply(
-      axis:                       js.UndefOr[String]  = js.undefined,
-      lockAxis:                   js.UndefOr[String]  = js.undefined,
-      helperClass:                js.UndefOr[String]  = js.undefined,
-      transitionDuration:         js.UndefOr[Int]     = js.undefined,
-      pressDelay:                 js.UndefOr[Int]     = js.undefined,
-      distance:                   js.UndefOr[Int]     = js.undefined,
-      shouldCancelStart:          ShouldCancelStart   = defaultShouldCancelStart,
+      axis:                       js.UndefOr[String] = js.undefined,
+      lockAxis:                   js.UndefOr[String] = js.undefined,
+      helperClass:                js.UndefOr[String] = js.undefined,
+      transitionDuration:         js.UndefOr[Int] = js.undefined,
+      pressDelay:                 js.UndefOr[Int] = js.undefined,
+      distance:                   js.UndefOr[Int] = js.undefined,
+      shouldCancelStart:          ShouldCancelStart = defaultShouldCancelStart,
       useDragHandle:              js.UndefOr[Boolean] = js.undefined,
       useWindowAsScrollContainer: js.UndefOr[Boolean] = js.undefined,
       hideSortableGhost:          js.UndefOr[Boolean] = js.undefined,
       lockToContainerEdges:       js.UndefOr[Boolean] = js.undefined,
       //lockOffset <- really not sure what this is from docs - maybe a string like "50%"?
-      getContainer: Option[js.Function1[dom.Element, dom.Element]] = None, // <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
+      getContainer:               Option[js.Function1[dom.Element, dom.Element]] =
+        None, // <- undef or function returning scrollable container element, function(wrappedInstance: React element): DOM element.
       //getHelperDimensions <- undef or function({node, index, collection})
       //Note this function actually gets "{oldIndex, newIndex, collection}, e", but we don't have much use for the other arguments
       //updateBeforeSortStart <- undef or function({node, index, collection}, event)
       onSortEnd: IndexChange => Callback = _ => Callback.empty,
       //onSortStart <- undef or function({node, index, collection}, event)
       //onSortMove <- undef or function(event)
-      key: js.UndefOr[Key] = js.undefined
+      key:       js.UndefOr[Key] = js.undefined
     ): Props =
       js.Dynamic
         .literal(
-          axis                       = axis,
-          lockAxis                   = lockAxis,
-          helperClass                = helperClass,
-          transitionDuration         = transitionDuration,
-          pressDelay                 = pressDelay,
-          distance                   = distance,
-          useDragHandle              = useDragHandle,
+          axis = axis,
+          lockAxis = lockAxis,
+          helperClass = helperClass,
+          transitionDuration = transitionDuration,
+          pressDelay = pressDelay,
+          distance = distance,
+          useDragHandle = useDragHandle,
           useWindowAsScrollContainer = useWindowAsScrollContainer,
-          hideSortableGhost          = hideSortableGhost,
-          lockToContainerEdges       = lockToContainerEdges,
-          getContainer               = getContainer.orUndefined,
+          hideSortableGhost = hideSortableGhost,
+          lockToContainerEdges = lockToContainerEdges,
+          getContainer = getContainer.orUndefined,
           onSortEnd = js.defined { p: Permutation =>
             onSortEnd(IndexChange(p.oldIndex, p.newIndex)).runNow()
           },
@@ -172,8 +173,8 @@ object SortableContainer {
         mergedProps.updateDynamic("getContainer")(props.getContainer)
         mergedProps.updateDynamic("key")(props.key.asInstanceOf[js.Any])
         mergedProps.updateDynamic("a")(wrappedProps.asInstanceOf[js.Any])
-        val wp = wrappedProps.asInstanceOf[js.Object]
-        val d  = wrappedProps.asInstanceOf[js.Dictionary[js.Any]]
+        val wp          = wrappedProps.asInstanceOf[js.Object]
+        val d           = wrappedProps.asInstanceOf[js.Dictionary[js.Any]]
         for {
           p <- js.Object.getOwnPropertyNames(wp)
           v <- d.get(p)

@@ -14,7 +14,7 @@ package object sortable {
         val disabledElements = List("input", "textarea", "select", "option", "button")
 
         CallbackTo(disabledElements.contains(e.tagName.toLowerCase()))
-      case _ => CallbackTo(false)
+      case _          => CallbackTo(false)
     }
 
   object raw {

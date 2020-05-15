@@ -44,7 +44,7 @@ object SortableContainerDemo {
       sortableList(
         SortableContainer.Props(
           useDragHandle = true,
-          helperClass   = "react-sortable-handler"
+          helperClass = "react-sortable-handler"
         )
       )(items)
   }
