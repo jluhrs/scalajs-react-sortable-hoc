@@ -1,5 +1,5 @@
 val reactJS          = "16.13.1"
-val scalaJsReact     = "1.7.0"
+val scalaJsReact     = "1.7.2"
 val reactSortableHOC = "1.10.1"
 val scalaJSDom       = "1.0.0"
 
@@ -88,8 +88,8 @@ lazy val demo =
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz.react" %%% "react-virtualized" % "0.8.0",
-        "io.github.cquiroz.react" %%% "react-draggable"   % "0.8.0"
+        "io.github.cquiroz.react" %%% "react-virtualized" % "0.9.1",
+        "io.github.cquiroz.react" %%% "react-draggable"   % "0.9.2"
       ),
       // don't publish the demo
       publish := {},
