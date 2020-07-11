@@ -1,5 +1,5 @@
 val reactJS          = "16.13.1"
-val scalaJsReact     = "1.7.2"
+val scalaJsReact     = "1.7.3"
 val reactSortableHOC = "1.10.1"
 val scalaJSDom       = "1.0.0"
 
@@ -88,7 +88,7 @@ lazy val demo =
         "react-sortable-hoc" -> reactSortableHOC
       ),
       libraryDependencies ++= Seq(
-        "io.github.cquiroz.react" %%% "react-virtualized" % "0.9.1",
+        "io.github.cquiroz.react" %%% "react-virtualized" % "0.9.2",
         "io.github.cquiroz.react" %%% "react-draggable"   % "0.9.2"
       ),
       // don't publish the demo
@@ -133,7 +133,7 @@ lazy val facade =
     )
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.13.2",
+  scalaVersion := "2.13.3",
   organization := "io.github.cquiroz.react",
   sonatypeProfileName := "io.github.cquiroz",
   description := "scala.js facade for react-sortable-hoc ",
@@ -143,6 +143,7 @@ lazy val commonSettings = Seq(
       // By necessity facades will have unused params
       "-Wdead-code",
       "-Wunused:params",
+      "-Wunused:explicits",
       "-Ywarn-dead-code",
       "-Ywarn-unused:params"
     )
