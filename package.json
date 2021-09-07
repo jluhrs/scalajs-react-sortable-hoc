@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "jsdom": "^9.9.0",
+    "prop-types": "^15.5.7",
     "react-sortable-hoc": "DataDog/react-sortable-hoc"
   }
 }

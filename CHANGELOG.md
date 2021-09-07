@@ -1,5 +1,13 @@
 # Changes
 
+## 0.5.0
+
+* Upgrade to scalajs-react 2.0.0-RC3
+* Upgrade to react 17.0.2
+* Upgrade to react-sortable-hoc 2.0.0
+* Upgrade to scalajs-dom 1.2.0
+* Upgrade to cats-core 2.6.1
+
 ## 0.4.2
 
 * Upgrade to scalajs-react 1.7.3

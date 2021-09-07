@@ -5,14 +5,13 @@ import scala.scalajs.js.annotation._
 import js.JSConverters._
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.raw.JsNumber
+import japgolly.scalajs.react.facade.JsNumber
 import japgolly.scalajs.react.ReactDOM
 import org.scalajs.dom
 import org.scalajs.dom.MouseEvent
 import react.virtualized._
 import react.draggable._
 import react.common._
-import react.common.syntax._
 import Data.DataRow
 import react.sortable._
 
@@ -71,12 +70,6 @@ object MainTable {
       case _ => "oddRow"
     }
 
-  implicit class JsNumberOps(val d: JsNumber) extends AnyVal {
-    def toDouble =
-      (d: Any) match {
-        case d: Double => d
-      }
-  }
   private implicit class ClickCallbackOps(val cb: OnRowClick) extends AnyVal {
     def toJsCallback: react.virtualized.raw.RawOnRowEvent =
       (i: react.virtualized.raw.RawIndexParameter) => cb(i.index).runNow()
