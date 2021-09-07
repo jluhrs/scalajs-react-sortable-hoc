@@ -40,11 +40,13 @@ object SortableElement {
         .asInstanceOf[Props]
   }
 
-  /**
-    * Wrap another component
-    * @param wrappedComponent The wrapped component itself
-    * @tparam P               The type of Props of the wrapped component
-    * @return                 A component wrapping the wrapped component...
+  /** Wrap another component
+    * @param wrappedComponent
+    *   The wrapped component itself
+    * @tparam P
+    *   The type of Props of the wrapped component
+    * @return
+    *   A component wrapping the wrapped component...
     */
   def wrap[P, CT[_, _]](
     wrappedComponent: GenericComponent[P, CT, _]

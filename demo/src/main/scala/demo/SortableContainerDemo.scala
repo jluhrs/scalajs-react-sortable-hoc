@@ -27,9 +27,8 @@ object SortableContainerDemo {
     .render { d =>
       <.div(
         ^.className := "react-sortable-list",
-        d.props.zipWithIndex.toTagMod {
-          case (value, index) =>
-            sortableItem(SortableElement.Props(index = index))(value)
+        d.props.zipWithIndex.toTagMod { case (value, index) =>
+          sortableItem(SortableElement.Props(index = index))(value)
         }
       )
     }
